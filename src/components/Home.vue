@@ -27,7 +27,7 @@ const store = useStore();
         <div class="flex gap-1 flex-wrap w-full">
           <div
             v-for="octave in octaves"
-            class="aspect-square h-full flex items-center justify-center rounded border border-white transition-colors duration-300"
+            class="aspect-square h-full cursor-pointer flex items-center justify-center rounded border border-white transition-colors duration-300"
             :class="
               store.all_octaves.includes(octave)
                 ? 'text-purple-400 border-purple-400'
