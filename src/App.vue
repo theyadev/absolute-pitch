@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import * as Tone from "tone";
 import { ref } from "vue";
+import { useStore } from "./stores";
 
+// Components
+import Home from "./components/Home.vue";
+import Scoreboard from "./components/Scoreboard.vue";
+import Waiting from "./components/Waiting.vue";
+import Game from "./components/Game.vue";
+import { storeToRefs } from "pinia";
+import getRandomValue from "./utils/getRandomValue";
+
+// ToneJS Init
 const piano = new Tone.Sampler({
   urls: {
     C4: "C4.mp3",
@@ -15,101 +25,57 @@ const piano = new Tone.Sampler({
 
 Tone.start();
 
-const notes = ref(["C", "D", "E", "F", "G", "A", "B"]);
-const suffixes = ref(["", "#", "b"]);
+// Variables
+const store = useStore();
+const { all_notes, all_octaves, finished, rounds, max_round, score } =
+  storeToRefs(store);
+const currently_playing = ref<boolean>(false);
 
-const all_octaves = ref(["1", "2", "3", "4", "5", "6", "7", "8"]);
-const all_notes = ref<string[]>(
-  notes.value.flatMap((note) => suffixes.value.map((suffix) => note + suffix))
-);
+// Functions
 
-const timeout = ref<number>(1000);
-
-function getRandomValue<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function playNote(note: string) {
+  currently_playing.value = true;
+  wait(500).then(() => {
+    currently_playing.value = false;
+  });
   piano.triggerAttackRelease(note, "2n");
 }
 
 function playRandomNote() {
   const randomNote = getRandomValue(all_notes.value);
   const randomOctave = getRandomValue(all_octaves.value);
-  console.log(randomNote + randomOctave);
+
+  store.addRound({
+    note: randomNote,
+    octave: randomOctave,
+    correct: false,
+    full_note: `${randomNote}${randomOctave}`,
+  });
+
   playNote(`${randomNote}${randomOctave}`);
 }
 
-function playRandomNotes(n: number) {
-  if (Math.random() < 0.001) return playMegalovania();
+function nextNote(selected_note: string) {
+  if (selected_note === rounds.value.at(-1)?.note) store.incrementScore();
 
-  for (let i = 0; i < n; i++) {
-    setTimeout(() => {
-      playRandomNote();
-    }, i * timeout.value);
+  if (rounds.value.length >= max_round.value) {
+    store.setFinished(true);
+    return;
   }
-}
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-async function playMegalovania() {
-  playNote("D4");
-  await wait(100);
-  playNote("D4");
-  await wait(200);
-  playNote("D5");
-  await wait(300);
-  playNote("A4");
-  await wait(400);
-  playNote("G#4");
-  await wait(300);
-  playNote("G4");
-  await wait(300);
-  playNote("F4");
-  await wait(250);
-  playNote("D4");
-  await wait(150);
-  playNote("F4");
-  await wait(150);
-  playNote("G4");
+  playRandomNote();
 }
 </script>
 
 <template>
   <div
-    class="flex flex-col w-screen h-screen items-center justify-center gap-4"
+    class="flex flex-col w-screen h-screen items-center justify-center bg-neutral-900 text-white"
   >
-    <label for="timeout">Timeout</label>
-    <input
-      v-model="timeout"
-      name="timeout"
-      type="text"
-      class="px-4 py-1 border focus-visible:outline-none rounded focus-visible:border-black/50 focus-visible:scale-110 transition-all duration-500"
-    />
-    <label for="notes">Octaves</label>
-    <input
-      @change="(e) => all_octaves = (e.target as HTMLInputElement).value.split(',')"
-      :value="all_octaves.join(',')"
-      name="octaves"
-      type="text"
-      class="px-4 py-1 border focus-visible:outline-none rounded focus-visible:border-black/50 focus-visible:scale-110 transition-all duration-500"
-    />
-    <label for="notes">Notes</label>
-    <input
-      @change="(e) => all_notes = (e.target as HTMLInputElement).value.split(',')"
-      :value="all_notes.join(',')"
-      name="notes"
-      type="text"
-      class="px-4 py-1 border focus-visible:outline-none rounded focus-visible:border-black/50 focus-visible:scale-110 transition-all duration-500"
-    />
-    <button class="bg-slate-500/30 px-6 py-2 rounded" @click="playRandomNote()">
-      Play random note
-    </button>
-    <button
-      class="bg-slate-500/30 px-6 py-2 rounded"
-      @click="playRandomNotes(10)"
-    >
-      Play 10 random note
-    </button>
+    <Waiting v-if="currently_playing" />
+    <Scoreboard v-else-if="finished" />
+    <Game v-else-if="rounds.length" @next="(note) => nextNote(note)" />
+    <Home v-else @start="playRandomNote" />
   </div>
 </template>
