@@ -18,20 +18,20 @@ const selected_note = ref<string>();
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col px-16">
     <span class="text-red-500">{{ rounds.at(-1)?.full_note }}</span>
-    <div class="flex items-center flex-wrap justify-center gap-4 px-16">
+    <div class="grid grid-cols-5 gap-4">
       <div
         v-for="note in all_notes"
         :key="note"
-        class="cursor-pointer bg-blue-400 px-2 py-1 rounded text-white"
-        :class="selected_note === note ? 'bg-green-500' : ''"
+        class="cursor-pointer aspect-square flex items-center justify-center border-2 border-white px-2 py-1 rounded text-white"
+        :class="selected_note === note ? 'border-purple-400 text-purple-400' : ''"
         @click="selected_note = note"
       >
         {{ note }}
       </div>
     </div>
 
-    <Button @click="$emit('next', selected_note)">Next</Button>
+    <Button class="w-max ml-auto px-4 py-2" @click="$emit('next', selected_note)">Next</Button>
   </div>
 </template>

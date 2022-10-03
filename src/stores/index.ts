@@ -41,6 +41,19 @@ export const useStore = defineStore("main", () => {
     finished.value = value;
   }
 
+  function setMaxRound(value: number) {
+    if (value > 30 || value < 1) return
+    max_round.value = value;
+  }
+
+  function toggleOctave(octave: number) {
+    if (all_octaves.value.includes(octave)) {
+      all_octaves.value = all_octaves.value.filter((o) => o !== octave);
+    } else {
+      all_octaves.value.push(octave);
+    }
+  }
+
   return {
     notes,
     suffixes,
@@ -55,5 +68,7 @@ export const useStore = defineStore("main", () => {
     incrementScore,
     setFinished,
     reset,
+    setMaxRound,
+    toggleOctave,
   };
 });

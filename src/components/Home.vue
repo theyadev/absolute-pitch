@@ -22,20 +22,44 @@ const store = useStore();
         <FontAwesomeIcon class="text-white" icon="gear" /><span>Settings</span>
       </div>
       <div class="w-full h-1 bg-white"></div>
-      <div class="flex items-center gap-x-2 mt-4">
-        <label class="uppercase font-semibold text-sm">Octaves:</label>
-        <div class="flex gap-x-1 flex-wrap w-full">
+      <div class="flex w-full items-center gap-x-4 mt-5">
+        <label class="uppercase font-semibold text-sm w-1/4">Octaves:</label>
+        <div class="flex gap-1 flex-wrap w-full">
           <div
             v-for="octave in octaves"
-            class="aspect-square h-full flex items-center justify-center rounded border border-white"
+            class="aspect-square h-full flex items-center justify-center rounded border border-white transition-colors duration-300"
             :class="
               store.all_octaves.includes(octave)
                 ? 'text-purple-400 border-purple-400'
                 : ''
             "
+            @click="store.toggleOctave(octave)"
           >
             {{ octave }}
           </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-x-4 mt-4">
+        <label class="uppercase font-semibold text-sm w-1/4">Tours: </label>
+        <div class="flex">
+          <Button @click="store.setMaxRound(store.max_round - 1)">
+            <FontAwesomeIcon icon="arrow-left" />
+          </Button>
+          <input
+            class="bg-transparent focus-visible:outline-none border-2 border-white rounded px-2 w-16"
+            type="number"
+            :value="store.max_round"
+            @input="
+              store.setMaxRound(
+                parseInt(($event.target as HTMLInputElement).value)
+              )
+            "
+            max="30"
+            min="1"
+          />
+          <Button @click="store.setMaxRound(store.max_round + 1)">
+            <FontAwesomeIcon icon="arrow-right" />
+          </Button>
         </div>
       </div>
     </div>
