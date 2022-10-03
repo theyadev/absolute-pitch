@@ -23,6 +23,8 @@ export const useStore = defineStore("main", () => {
   const finished = ref<boolean>(false);
   const score = ref<number>(0);
 
+  const cheat = ref<boolean>(false);
+
   function addRound(round: Round) {
     rounds.value.push(round);
   }
@@ -53,6 +55,9 @@ export const useStore = defineStore("main", () => {
       all_octaves.value.push(octave);
     }
   }
+  function setCheat(value: boolean) {
+    cheat.value = value;
+  }
 
   return {
     notes,
@@ -63,6 +68,7 @@ export const useStore = defineStore("main", () => {
     max_round,
     finished,
     score,
+    cheat,
 
     addRound,
     incrementScore,
@@ -70,5 +76,6 @@ export const useStore = defineStore("main", () => {
     reset,
     setMaxRound,
     toggleOctave,
+    setCheat,
   };
 });

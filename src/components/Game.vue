@@ -19,7 +19,7 @@ const selected_note = ref<string>();
 
 <template>
   <div class="flex flex-col px-16">
-    <span class="text-red-500">{{ rounds.at(-1)?.full_note }}</span>
+    <span v-if="store.cheat" class="text-red-500">{{ rounds.at(-1)?.full_note }}</span>
     <div class="grid grid-cols-5 gap-4">
       <div
         v-for="note in all_notes"
