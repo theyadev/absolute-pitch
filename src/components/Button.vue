@@ -1,7 +1,7 @@
 <script setup lang="ts">
 </script>
 <template>
-    <button class="bg-slate-500/30 px-6 py-2 rounded">
+    <button class="border-2 border-white px-2 rounded">
         <slot />
     </button>
 </template>

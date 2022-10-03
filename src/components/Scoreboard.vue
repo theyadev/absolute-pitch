@@ -1,23 +1,15 @@
 <script setup lang="ts">
-interface Props {
-  score: number;
-  max_score: number;
-}
+import { useStore } from "../stores";
 
-interface Emits {
-  (event: "restart"): void;
-}
-
-defineEmits<Emits>();
-defineProps<Props>();
+const store = useStore();
 </script>
 
 <template>
   <div>
     <h3>Finished</h3>
 
-    <p>{{ score }}/{{ max_score }}</p>
+    <p>{{ store.score }}/{{ store.rounds.length }}</p>
 
-    <Button @click="$emit('restart')">Restart</Button>
+    <Button @click="store.reset()">Restart</Button>
   </div>
 </template>
