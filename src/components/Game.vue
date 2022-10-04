@@ -25,18 +25,17 @@ function convertToFrench(note: string) {
 </script>
 
 <template>
-  <div class="flex flex-col px-16">
+  <div class="flex flex-col px-16 w-full place-items-center">
     <span v-if="store.cheat" class="text-red-500">{{
       rounds.at(-1)?.full_note
     }}</span>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-y-4 gap-x-12">
       <div
         v-for="note in all_notes"
         :key="note"
-        class="cursor-pointer aspect-square flex items-center justify-center border-2 border-white px-2 py-1 rounded text-white"
+        class="cursor-pointer aspect-square flex items-center justify-center border-2 w-14 border-white px-2 py-1 rounded text-white"
         :class="
-          (selected_note === note ? 'border-purple-400 text-purple-400 ' : '') +
-          (use_french ? 'w-12' : '')
+          selected_note === note ? 'border-purple-400 text-purple-400 ' : ''
         "
         @click="selected_note = note"
       >
