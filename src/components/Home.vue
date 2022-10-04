@@ -10,9 +10,13 @@ interface Emits {
 
 defineEmits<Emits>();
 
-const octaves = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const store = useStore();
+
+function handleDifficuly(e: Event) {
+  const target = e.target as HTMLInputElement;
+
+  store.setDifficulty(parseInt(target.value));
+}
 </script>
 
 <template>
@@ -23,25 +27,26 @@ const store = useStore();
       </div>
       <div class="w-full h-1 bg-white"></div>
       <div class="flex w-full items-center gap-x-4 mt-5">
-        <label class="uppercase font-semibold text-sm w-1/4">Octaves:</label>
+        <label class="uppercase font-semibold text-sm w-1/4">Difficulty:</label>
         <div class="flex gap-1 flex-wrap w-full">
-          <div
-            v-for="octave in octaves"
-            class="aspect-square h-full cursor-pointer flex items-center justify-center rounded border border-white transition-colors duration-300"
-            :class="
-              store.all_octaves.includes(octave)
-                ? 'text-purple-400 border-purple-400'
-                : ''
-            "
-            @click="store.toggleOctave(octave)"
+          <select
+            class="bg-transparent focus-visible:outline-none border-2 border-white rounded px-2 py-0.5 flex items-center"
+            name="difficulty"
+            @change="handleDifficuly"
           >
-            {{ octave }}
-          </div>
+            <option
+              v-for="(difficulty, i) in store.difficulties"
+              :value="i"
+              :selected="store.difficulty === i"
+            >
+              {{ difficulty.name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
         <label class="uppercase font-semibold text-sm w-1/4">Rounds: </label>
-        <div class="flex">
+        <div class="flex gap-1 flex-wrap w-full">
           <Button @click="store.setMaxRound(store.max_round - 1)">
             <FontAwesomeIcon icon="arrow-left" />
           </Button>
@@ -49,6 +54,7 @@ const store = useStore();
             class="bg-transparent focus-visible:outline-none border-2 border-white rounded px-2 w-16"
             type="number"
             :value="store.max_round"
+            disabled
             @input="
               store.setMaxRound(
                 parseInt(($event.target as HTMLInputElement).value)
@@ -64,11 +70,17 @@ const store = useStore();
       </div>
       <div class="flex items-center gap-x-4 mt-4">
         <label class="uppercase font-semibold text-sm w-1/4">Cheat: </label>
-        <input type="checkbox" class="w-5 h-5" v-model="store.cheat" />
+        <div class="flex gap-1 flex-wrap w-full">
+          <input type="checkbox" class="w-5 h-5" v-model="store.cheat" />
+        </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4">FR Notation: </label>
-        <input type="checkbox" class="w-5 h-5" v-model="store.use_french" />
+        <label class="uppercase font-semibold text-sm w-1/4"
+          >FR Notation:
+        </label>
+        <div class="flex gap-1 flex-wrap w-full">
+          <input type="checkbox" class="w-5 h-5" v-model="store.use_french" />
+        </div>
       </div>
     </div>
     <FontAwesomeIcon

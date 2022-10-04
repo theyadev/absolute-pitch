@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 // Types
 interface Round {
@@ -11,7 +11,7 @@ interface Round {
 
 export const useStore = defineStore("main", () => {
   const notes = ref(["C", "D", "E", "F", "G", "A", "B"]);
-  const french_notes = ref<{[key: string]: string}>({
+  const french_notes = ref<{ [key: string]: string }>({
     C: "Do",
     D: "Ré",
     E: "Mi",
@@ -23,10 +23,36 @@ export const useStore = defineStore("main", () => {
 
   const suffixes = ref(["", "#", "b"]);
 
-  const all_octaves = ref([3, 4, 5]);
-  const all_notes = ref<string[]>(
-    notes.value.flatMap((note) => suffixes.value.map((suffix) => note + suffix))
-  );
+  const difficulties = ref([
+    { name: "Easy", octaves: [4], suffixes: [0], notes: [0, 1, 2] },
+    { name: "Medium", octaves: [4], suffixes: [0], notes: [0, 1, 2, 3, 4] },
+    {
+      name: "Advanced",
+      octaves: [4],
+      suffixes: [0],
+      notes: [0, 1, 2, 3, 4, 5, 6],
+    },
+    {
+      name: "Hard",
+      octaves: [4],
+      suffixes: [0, 1],
+      notes: [0, 1, 2, 3, 4, 5, 6],
+    },
+    {
+      name: "Expert",
+      octaves: [4],
+      suffixes: [0, 1, 2],
+      notes: [0, 1, 2, 3, 4, 5, 6],
+    },
+    {
+      name: "Impossible",
+      octaves: [2, 3, 4, 5, 6],
+      suffixes: [0, 1, 2],
+      notes: [0, 1, 2, 3, 4, 5, 6],
+    },
+  ]);
+
+  const difficulty = ref(1);
 
   const rounds = ref<Round[]>([]);
   const max_round = ref<number>(5);
@@ -55,26 +81,34 @@ export const useStore = defineStore("main", () => {
   }
 
   function setMaxRound(value: number) {
-    if (value > 30 || value < 1) return
+    if (value > 30 || value < 1) return;
     max_round.value = value;
   }
 
-  function toggleOctave(octave: number) {
-    if (all_octaves.value.includes(octave)) {
-      all_octaves.value = all_octaves.value.filter((o) => o !== octave);
-    } else {
-      all_octaves.value.push(octave);
-    }
-  }
   function setCheat(value: boolean) {
     cheat.value = value;
   }
+  function setDifficulty(value: number) {
+    difficulty.value = value;
+  }
 
+  const all_notes = computed(() => {
+    const current_difficulty = difficulties.value[difficulty.value];
+
+    const difficulty_notes = current_difficulty.notes.map(
+      (i) => notes.value[i]
+    );
+    const difficulty_suffixes = current_difficulty.suffixes.map(
+      (i) => suffixes.value[i]
+    );
+
+    return difficulty_notes.flatMap((note) =>
+      difficulty_suffixes.map((suffix) => note + suffix)
+    );
+  });
   return {
     notes,
     suffixes,
-    all_octaves,
-    all_notes,
     rounds,
     max_round,
     finished,
@@ -82,13 +116,16 @@ export const useStore = defineStore("main", () => {
     cheat,
     french_notes,
     use_french,
+    difficulty,
+    difficulties,
+    all_notes,
 
     addRound,
     incrementScore,
     setFinished,
     reset,
     setMaxRound,
-    toggleOctave,
     setCheat,
+    setDifficulty,
   };
 });

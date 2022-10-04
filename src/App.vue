@@ -27,7 +27,7 @@ Tone.start();
 
 // Variables
 const store = useStore();
-const { all_notes, all_octaves, finished, rounds, max_round, score } =
+const { finished, rounds, max_round, difficulties, difficulty, all_notes } =
   storeToRefs(store);
 const currently_playing = ref<boolean>(false);
 
@@ -44,8 +44,11 @@ function playNote(note: string) {
 }
 
 function playRandomNote() {
-  const randomNote = getRandomValue(all_notes.value);
-  const randomOctave = getRandomValue(all_octaves.value);
+  const current_difficulty = difficulties.value[difficulty.value];
+  const randomNote = getRandomValue(
+    all_notes.value
+  );
+  const randomOctave = getRandomValue(current_difficulty.octaves);
 
   store.addRound({
     note: randomNote,
