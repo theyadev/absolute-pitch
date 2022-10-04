@@ -66,6 +66,10 @@ const store = useStore();
         <label class="uppercase font-semibold text-sm w-1/4">Cheat: </label>
         <input type="checkbox" class="w-5 h-5" v-model="store.cheat" />
       </div>
+      <div class="flex items-center gap-x-4 mt-4">
+        <label class="uppercase font-semibold text-sm w-1/4">Notes FR: </label>
+        <input type="checkbox" class="w-5 h-5" v-model="store.use_french" />
+      </div>
     </div>
     <FontAwesomeIcon
       @click="$emit('start')"

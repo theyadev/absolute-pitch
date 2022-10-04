@@ -11,6 +11,16 @@ interface Round {
 
 export const useStore = defineStore("main", () => {
   const notes = ref(["C", "D", "E", "F", "G", "A", "B"]);
+  const french_notes = ref<{[key: string]: string}>({
+    C: "Do",
+    D: "Ré",
+    E: "Mi",
+    F: "Fa",
+    G: "Sol",
+    A: "La",
+    B: "Si",
+  });
+
   const suffixes = ref(["", "#", "b"]);
 
   const all_octaves = ref([3, 4, 5]);
@@ -24,6 +34,7 @@ export const useStore = defineStore("main", () => {
   const score = ref<number>(0);
 
   const cheat = ref<boolean>(false);
+  const use_french = ref<boolean>(false);
 
   function addRound(round: Round) {
     rounds.value.push(round);
@@ -69,6 +80,8 @@ export const useStore = defineStore("main", () => {
     finished,
     score,
     cheat,
+    french_notes,
+    use_french,
 
     addRound,
     incrementScore,
