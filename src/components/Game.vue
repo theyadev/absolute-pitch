@@ -33,9 +33,9 @@ function convertToFrench(note: string) {
       <div
         v-for="note in all_notes"
         :key="note"
-        class="cursor-pointer aspect-square flex items-center justify-center border-2 w-14 border-white px-2 py-1 rounded text-white"
+        class="hover:border-purple-500/50 hover:text-purple-500/50 hover:scale-95 transition-all duration-300 cursor-pointer aspect-square flex items-center justify-center border-2 w-14 border-white px-2 py-1 rounded text-white"
         :class="
-          selected_note === note ? 'border-purple-400 text-purple-400 ' : ''
+          selected_note === note ? 'border-purple-400 text-purple-400 scale-105' : ''
         "
         @click="selected_note = note"
       >
