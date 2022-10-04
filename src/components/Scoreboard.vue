@@ -35,10 +35,10 @@ defineEmits<Emits>();
         </p>
         <div class="flex gap-x-2 items-center">
           <span>{{
-            round.answer
+            store.use_french ? store.convertToFrench(round.answer) : round.answer
           }}</span>
           <div v-if="!round.correct" class="flex gap-x-1 items-center">
-            <span class="uppercase text-xs">Correct: {{ round.note }}</span>
+            <span class="uppercase text-xs">Correct: {{ store.use_french ? store.convertToFrench(round.note) : round.note }}</span>
           </div>
           <FontAwesomeIcon class="text-white hover:text-purple-400 cursor-pointer" icon="play" @click="$emit('play', round.full_note)" />
         </div>

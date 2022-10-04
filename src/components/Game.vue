@@ -15,20 +15,13 @@ const store = useStore();
 const { rounds, use_french, french_notes, all_notes } = storeToRefs(store);
 
 const selected_note = ref<string>("");
-
-function convertToFrench(note: string) {
-  return (
-    french_notes.value[note.slice(0, 1)] +
-    note.slice(1).replace("b", "♭").replace("#", "♯")
-  );
-}
 </script>
 
 <template>
   <div class="flex flex-col px-16 w-full place-items-center">
     <span v-if="store.cheat" class="text-red-500 mb-4">{{
       use_french
-        ? convertToFrench(rounds.at(-1)?.full_note as string)
+        ? store.convertToFrench(rounds.at(-1)?.full_note as string)
         : rounds.at(-1)?.full_note
     }}</span>
     <div
@@ -52,7 +45,7 @@ function convertToFrench(note: string) {
         "
         @click="selected_note = note"
       >
-        <span v-if="use_french">{{ convertToFrench(note) }}</span>
+        <span v-if="use_french">{{ store.convertToFrench(note) }}</span>
         <span v-else>{{ note }}</span>
       </div>
     </div>

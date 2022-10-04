@@ -116,6 +116,12 @@ export const useStore = defineStore("main", () => {
       difficulty_suffixes.map((suffix) => note + suffix)
     );
   });
+  function convertToFrench(note: string) {
+    return (
+      french_notes.value[note.slice(0, 1)] +
+      note.slice(1).replace("b", "♭").replace("#", "♯")
+    );
+  }
   return {
     notes,
     suffixes,
@@ -139,5 +145,6 @@ export const useStore = defineStore("main", () => {
     setDifficulty,
     setAnswer,
     setCorrect,
+    convertToFrench
   };
 });
