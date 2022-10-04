@@ -7,6 +7,7 @@ interface Round {
   octave: number;
   correct: boolean;
   full_note: string;
+  answer: string;
 }
 
 export const useStore = defineStore("main", () => {
@@ -74,6 +75,11 @@ export const useStore = defineStore("main", () => {
 
   function incrementScore() {
     score.value += 1;
+    setCorrect(true);
+  }
+
+  function setAnswer(answer: string) {
+    rounds.value[rounds.value.length - 1].answer = answer;
   }
 
   function setFinished(value: boolean) {
@@ -90,6 +96,10 @@ export const useStore = defineStore("main", () => {
   }
   function setDifficulty(value: number) {
     difficulty.value = value;
+  }
+
+  function setCorrect(value: boolean) {
+    rounds.value[rounds.value.length - 1].correct = value;
   }
 
   const all_notes = computed(() => {
@@ -127,5 +137,7 @@ export const useStore = defineStore("main", () => {
     setMaxRound,
     setCheat,
     setDifficulty,
+    setAnswer,
+    setCorrect,
   };
 });

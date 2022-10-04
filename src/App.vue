@@ -36,10 +36,6 @@ const currently_playing = ref<boolean>(false);
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function playNote(note: string) {
-  currently_playing.value = true;
-  wait(500).then(() => {
-    currently_playing.value = false;
-  });
   piano.triggerAttackRelease(note, "2n");
 }
 
@@ -54,14 +50,21 @@ function playRandomNote() {
     note: randomNote,
     octave: randomOctave,
     correct: false,
+    answer: "",
     full_note: `${randomNote}${randomOctave}`,
   });
 
+  currently_playing.value = true;
+  wait(500).then(() => {
+    currently_playing.value = false;
+  });
   playNote(`${randomNote}${randomOctave}`);
 }
 
 function nextNote(selected_note: string) {
   if (selected_note === rounds.value.at(-1)?.note) store.incrementScore();
+
+  store.setAnswer(selected_note)
 
   if (rounds.value.length >= max_round.value) {
     store.setFinished(true);
@@ -77,7 +80,7 @@ function nextNote(selected_note: string) {
     class="flex flex-col w-screen h-screen items-center justify-center bg-neutral-900 text-white"
   >
     <Waiting v-if="currently_playing" />
-    <Scoreboard v-else-if="finished" />
+    <Scoreboard v-else-if="finished" @play="(note) => playNote(note)" />
     <Game v-else-if="rounds.length" @next="(note) => nextNote(note)" />
     <Home v-else @start="playRandomNote" />
   </div>
