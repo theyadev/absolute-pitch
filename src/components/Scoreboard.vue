@@ -25,7 +25,7 @@ defineEmits<Emits>();
 
     <div class="flex flex-col">
       <p class="uppercase font-semibold text-sm w-2/5 md:w-1/4 mb-2 flex items-center gap-x-2">
-        <FontAwesomeIcon class="text-white" icon="flag" /> Answers
+        <FontAwesomeIcon class="text-white" icon="star" /> Answers
       </p>
     <div class=" h-0.5 w-3/4 bg-white mb-1"></div>
 
