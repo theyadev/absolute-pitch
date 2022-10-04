@@ -41,14 +41,14 @@ export const useStore = defineStore("main", () => {
     },
     {
       name: "Expert",
-      octaves: [4],
-      suffixes: [0, 1, 2],
+      octaves: [3, 4, 5],
+      suffixes: [0, 1],
       notes: [0, 1, 2, 3, 4, 5, 6],
     },
     {
       name: "Impossible",
       octaves: [2, 3, 4, 5, 6],
-      suffixes: [0, 1, 2],
+      suffixes: [0, 1],
       notes: [0, 1, 2, 3, 4, 5, 6],
     },
   ]);
