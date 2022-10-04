@@ -40,7 +40,7 @@ const store = useStore();
         </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4">Tours: </label>
+        <label class="uppercase font-semibold text-sm w-1/4">Rounds: </label>
         <div class="flex">
           <Button @click="store.setMaxRound(store.max_round - 1)">
             <FontAwesomeIcon icon="arrow-left" />
@@ -67,7 +67,7 @@ const store = useStore();
         <input type="checkbox" class="w-5 h-5" v-model="store.cheat" />
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4">Notes FR: </label>
+        <label class="uppercase font-semibold text-sm w-1/4">FR Notation: </label>
         <input type="checkbox" class="w-5 h-5" v-model="store.use_french" />
       </div>
     </div>
