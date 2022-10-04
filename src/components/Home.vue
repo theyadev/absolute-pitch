@@ -27,8 +27,8 @@ function handleDifficuly(e: Event) {
       </div>
       <div class="w-full h-1 bg-white"></div>
       <div class="flex w-full items-center gap-x-4 mt-5">
-        <label class="uppercase font-semibold text-sm w-1/4">Difficulty:</label>
-        <div class="flex gap-1 flex-wrap w-full">
+        <label class="uppercase font-semibold text-sm w-2/5 md:w-1/4">Difficulty:</label>
+        <div class="flex gap-1 flex-wrap w-3/5 md:w-full">
           <select
             class="bg-transparent focus-visible:outline-none border-2 border-white rounded px-2 py-0.5 flex items-center"
             name="difficulty"
@@ -45,8 +45,8 @@ function handleDifficuly(e: Event) {
         </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4">Rounds: </label>
-        <div class="flex gap-1 flex-wrap w-full">
+        <label class="uppercase font-semibold text-sm w-2/5 md:w-1/4">Rounds: </label>
+        <div class="flex gap-1 flex-wrap w-3/5 md:w-full">
           <Button @click="store.setMaxRound(store.max_round - 1)">
             <FontAwesomeIcon icon="arrow-left" />
           </Button>
@@ -69,16 +69,16 @@ function handleDifficuly(e: Event) {
         </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4">Cheat: </label>
-        <div class="flex gap-1 flex-wrap w-full">
+        <label class="uppercase font-semibold text-sm w-2/5  md:w-1/4">Cheat: </label>
+        <div class="flex gap-1 flex-wrap w-3/5 md:w-full">
           <input type="checkbox" class="w-5 h-5" v-model="store.cheat" />
         </div>
       </div>
       <div class="flex items-center gap-x-4 mt-4">
-        <label class="uppercase font-semibold text-sm w-1/4"
+        <label class="uppercase font-semibold text-sm w-2/5 md:w-1/4"
           >FR Notation:
         </label>
-        <div class="flex gap-1 flex-wrap w-full">
+        <div class="flex gap-1 flex-wrap w-3/5 md:w-full">
           <input type="checkbox" class="w-5 h-5" v-model="store.use_french" />
         </div>
       </div>
